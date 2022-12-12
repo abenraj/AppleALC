@@ -84,6 +84,11 @@ private:
 	void updateDeviceProperties(IORegistryEntry *hdaService, DeviceInfo *info, const char *hdaGfx, bool isAnalog);
 
 	/**
+	 *  de-init HDAU
+	 */
+	bool noHDAU {false};
+	
+	/**
 	 *  Maximum available connector count assumed on NVIDIA GPUs
 	 */
 	static constexpr size_t MaxConnectorCount = 6;
