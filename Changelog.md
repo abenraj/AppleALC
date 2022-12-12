@@ -1,5 +1,8 @@
 AppleALC Changelog
 ==================
+#### v1.7.8
+- Added boot-arg `-noHDAU` to allow HDEF rename only.
+
 #### v1.7.7
 - Added ALC256 layout-id 68 for nuc9 by littlesum
 
