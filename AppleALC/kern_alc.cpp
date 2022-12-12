@@ -260,12 +260,20 @@ void AlcEnabler::updateDeviceProperties(IORegistryEntry *hdaService, DeviceInfo 
 	auto hdaPlaneName = hdaService->getName();
 
 	// AppleHDAController only recognises HDEF and HDAU.
-	if (isAnalog && (!hdaPlaneName || strcmp(hdaPlaneName, "HDEF") != 0)) {
-		DBGLOG("alc", "fixing audio plane name to HDEF");
-		WIOKit::renameDevice(hdaService, "HDEF");
-	} else if (!isAnalog && (!hdaPlaneName || strcmp(hdaPlaneName, "HDAU") != 0)) {
-		DBGLOG("alc", "fixing audio plane name to HDAU");
-		WIOKit::renameDevice(hdaService, "HDAU");
+	noHDAU = checkKernelArgument("-noHDAU");
+	if (noHDAU) {
+		if (isAnalog && (!hdaPlaneName || strcmp(hdaPlaneName, "HDEF") != 0)) {
+			DBGLOG("alc", "fixing audio plane name to HDEF");
+			WIOKit::renameDevice(hdaService, "HDEF");
+		}
+	} else {
+		if (isAnalog && (!hdaPlaneName || strcmp(hdaPlaneName, "HDEF") != 0)) {
+			DBGLOG("alc", "fixing audio plane name to HDEF");
+			WIOKit::renameDevice(hdaService, "HDEF");
+		} else if (!isAnalog && (!hdaPlaneName || strcmp(hdaPlaneName, "HDAU") != 0)) {
+			DBGLOG("alc", "fixing audio plane name to HDAU");
+			WIOKit::renameDevice(hdaService, "HDAU");
+		}
 	}
 
 #ifdef HAVE_ANALOG_AUDIO
